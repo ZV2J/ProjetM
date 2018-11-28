@@ -18,7 +18,7 @@ sf::RectangleShape PB_Bouton(float PosX, float PosY)
 {
     sf::RectangleShape name;
     name.setSize(sf::Vector2f(440.f, 160.f));
-    name.setFillColor(sf::Color::Cyan);
+    name.setFillColor(sf::Color(0, 255, 255, 125));
     name.setPosition(sf::Vector2f(PosX, PosY));
 
     return name;
