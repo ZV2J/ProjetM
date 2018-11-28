@@ -19,6 +19,8 @@ sf::RectangleShape b_basgauche = PB_Bouton(100, 820);
 sf::RectangleShape b_basmilieu = PB_Bouton(740, 820);
 sf::RectangleShape b_basdroite = PB_Bouton(1380, 820);
 
+sf::RectangleShape b_exit;
+
 /*
     g++ -std=c++14 src/*.cpp -o bin/prog -I include -L lib -lsfml-graphics -lsfml-window -lsfml-system
 */
@@ -40,7 +42,11 @@ int main()
     background_sprite.setTexture(background_texture);
     background_sprite.setPosition(sf::Vector2f(0.f, 0.f));
 
-    window.setFramerateLimit(60);
+    b_exit.setSize(sf::Vector2f(50.f, 50.f));
+    b_exit.setPosition(sf::Vector2f(1870.f, 0.f));
+    b_exit.setFillColor(sf::Color(0, 0, 0, 255));
+
+    window.setFramerateLimit(144);
 
     while(window.isOpen())
     {
@@ -98,7 +104,14 @@ int main()
                 b_basdroite.setFillColor(sf::Color(0, 255, 255, 255));
             else
                 b_basdroite.setFillColor(sf::Color(0, 255, 255, 125));
-                
+
+            
+
+
+            if(event.type == sf::Event::MouseMoved && event.mouseMove.x > 1870 && event.mouseMove.y < 50)
+                b_exit.setFillColor(sf::Color(255, 0, 0, 255));
+            else
+                b_exit.setFillColor(sf::Color(0, 0, 0, 255));
 
             switch(event.type)
             {
@@ -136,6 +149,8 @@ int main()
         window.draw(b_basgauche);
         window.draw(b_basmilieu);
         window.draw(b_basdroite);
+
+        window.draw(b_exit);
 
         window.display();
     }
