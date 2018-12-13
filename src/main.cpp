@@ -7,23 +7,6 @@
 #include "structs.hpp"
 #include "bibli.hpp"
 
-sf::RectangleShape b_hautgauche = PB_Bouton(100, 100);
-sf::RectangleShape b_hautmilieu = PB_Bouton(740, 100);
-sf::RectangleShape b_hautdroite = PB_Bouton(1380, 100);
-
-sf::RectangleShape b_milieugauche = PB_Bouton(100, 460);
-sf::RectangleShape b_milieumilieu = PB_Bouton(740, 460);
-sf::RectangleShape b_milieudroite = PB_Bouton(1380, 460);
-
-sf::RectangleShape b_basgauche = PB_Bouton(100, 820);
-sf::RectangleShape b_basmilieu = PB_Bouton(740, 820);
-sf::RectangleShape b_basdroite = PB_Bouton(1380, 820);
-
-sf::RectangleShape b_exit;
-sf::RectangleShape b_menu;
-sf::RectangleShape l_exit_d;
-sf::RectangleShape l_exit_c;
-
 /*
     g++ -std=c++14 src/*.cpp -o bin/prog -I include -L lib -lsfml-graphics -lsfml-window -lsfml-system
 */
@@ -32,6 +15,25 @@ int main()
 {
     sf::RenderWindow window;
     sf::Clock clock;
+
+    sf::RectangleShape b_hautgauche = PB_Bouton(100, 100);
+    sf::RectangleShape b_hautmilieu = PB_Bouton(740, 100);
+    sf::RectangleShape b_hautdroite = PB_Bouton(1380, 100);
+
+    sf::RectangleShape b_milieugauche = PB_Bouton(100, 460);
+    sf::RectangleShape b_milieumilieu = PB_Bouton(740, 460);
+    sf::RectangleShape b_milieudroite = PB_Bouton(1380, 460);   
+
+    sf::RectangleShape b_basgauche = PB_Bouton(100, 820);
+    sf::RectangleShape b_basmilieu = PB_Bouton(740, 820);
+    sf::RectangleShape b_basdroite = PB_Bouton(1380, 820);
+
+    sf::RectangleShape b_exit;
+    sf::RectangleShape b_menu;
+    sf::RectangleShape l_exit_d;
+    sf::RectangleShape l_exit_c;
+
+    sf::String m_saisie("");
 
     window.create(sf::VideoMode(WIN_W, WIN_H), "SFML Test", sf::Style::Fullscreen);
 
@@ -62,6 +64,27 @@ int main()
     l_exit_d.setFillColor(sf::Color::White);
     l_exit_c.setFillColor(sf::Color::White);
 
+    sf::Font font_arial;
+
+    if(!font_arial.loadFromFile("src/police/arial.ttf"))
+        SF_Error(&window, "load arial font");
+
+    sf::Text t_date;
+    t_date.setFont(font_arial);
+    t_date.setString("Date (JJ/MM/AAAA)");
+    t_date.setCharacterSize(20);
+    t_date.setFillColor(sf::Color::White);
+    t_date.setStyle(sf::Text::Bold);
+    t_date.setPosition(sf::Vector2f(215.f, 74.f));
+
+    sf::Text saisie_date;
+    saisie_date.setFont(font_arial);
+    saisie_date.setString("");
+    saisie_date.setCharacterSize(20);
+    saisie_date.setFillColor(sf::Color::White);
+    saisie_date.setStyle(sf::Text::Bold);
+    saisie_date.setPosition(sf::Vector2f(215.f, 170.f));
+
     bool bool_menu = false;
 
     window.setFramerateLimit(144);
@@ -80,6 +103,15 @@ int main()
                 }
             }
 
+            if(event.type == sf::Event::TextEntered)
+            {
+                if((event.text.unicode > 30 && (event.text.unicode < 128 || event.text.unicode > 159)))
+                {
+                    m_saisie += static_cast<char>(event.text.unicode);
+                    saisie_date.setString(m_saisie);
+
+                }
+            }
 
             if (bool_menu == false)
                 b_menu.setFillColor(sf::Color(0, 0, 0, 0));
@@ -200,8 +232,12 @@ int main()
         window.draw(b_exit);
         window.draw(l_exit_d);
         window.draw(l_exit_c);
-        window.draw(b_menu);
 
+        window.draw(t_date);
+
+        window.draw(saisie_date);
+
+        window.draw(b_menu);
         window.display();
     }
     return 0;
